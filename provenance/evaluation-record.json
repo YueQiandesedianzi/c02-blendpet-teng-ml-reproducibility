@@ -1,0 +1,7 @@
+{
+  "evaluated_at_utc": "2026-09-17T11:39:03.026862+00:00",
+  "prediction_lock_sha256": "5d898159e2ed418b880621850ab3f66fa54a904410a14cc8863672df3c525675",
+  "replicates": 20000,
+  "selection_after_evaluation": false,
+  "role": "REUSED_CONFIRMATION"
+}

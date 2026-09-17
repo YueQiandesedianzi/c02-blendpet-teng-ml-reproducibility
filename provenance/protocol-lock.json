@@ -1,0 +1,13 @@
+{
+  "locked_at_utc": "2026-09-17T11:29:56.831300+00:00",
+  "hashes": {
+    "provenance/protocol.json": "e3298f53400cb7b65fa80143168fb5c975389493e7a1b6fdfd47f05c3f25271c",
+    "code/analysis.py": "ac4b0b8dd4982e641095c2c45ae62695f685ccaa8d90c6a7fd9feebf2ac9524a",
+    "code/preprocessing.py": "7885ccc67871169ff6bbaaf2c87398ccc4175781f2254a7701863400a7f108f6",
+    "code/equivalent.py": "63d10478f8c8f993a57ff0b70bdb4733326ea945fc4fb8216a6bed0c2aa9aff3",
+    "code/r01_wave_source.py": "db4458d3d9346c67c6d68121a5a3bf0ee050ae90343bde1c7ed62907aed95e25",
+    "data/aligned-waves.npz": "2f9b4e3b0868d8e89d082ec14830e0b362e8f5344e043b7618dd9ad4a45428fc",
+    "data/base-features.csv": "8fcf028b6b53e9425cb9e7b9d241410c2a1ffcaac9dc086dda356a4154431873",
+    "data/cycle-ledger.csv": "fe3bb4d47cd30abbb2743cf7bd70a5597f25fad03b9fcbd12147144c33ab0d6e"
+  }
+}

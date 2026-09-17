@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "Cite this version when you use the code, data, or models."
+title: "CNN-P-V reproducibility for homologous polyester blends"
+authors:
+  - family-names: Tan
+    given-names: Hao
+  - family-names: Chen
+    given-names: Xiaotian
+  - family-names: Zhang
+    given-names: Haonan
+  - family-names: Yuan
+    given-names: Lijunjie
+  - family-names: Chen
+    given-names: Huifang
+  - family-names: You
+    given-names: Zhengwei
+version: rev23-v03
+date-released: 2026-09-17
+url: https://github.com/YueQiandesedianzi/c02-blendpet-teng-ml-reproducibility/releases/tag/rev23-v03
+repository-code: https://github.com/YueQiandesedianzi/c02-blendpet-teng-ml-reproducibility
+license:
+  - MIT
+  - CC-BY-4.0
+type: software

@@ -1,0 +1,23 @@
+﻿set,field,formula,unit,waveform,guard
+P6,log1p_vpp,"ln[1 + max(V, 10⁻⁹ V)/(1 V)]",1,"Corrected, before alignment",V is stored in volts.
+P6,signed_dominant_peak_over_vpp,"d / max(V, 10⁻⁹ V)",1,"Corrected, before alignment",d = p if |p| ≥ |n|; otherwise n.
+P6,peak_balance,"(max(p,0) − max(−n,0)) / max(V,10⁻⁹ V)",1,"Corrected, before alignment",p=max(x); n=min(x).
+P6,rms_over_vpp,"sqrt(mean(x²)) / max(V,10⁻⁹ V)",1,"Corrected, before alignment",Amplitude ratio.
+P6,signed_area_balance,"(Σx⁺ − Σx⁻) / max(Σ|x|,10⁻⁹ V)",1,Aligned 256-point cycle,Point sums; not a voltage–time integral.
+P6,half_peak_width_fraction,(R − L + 1) / 256,1,Aligned 256-point cycle,Contiguous |x| ≥ |xpeak|/2 around peak; no wrap. Zero if peak ≤10⁻¹² V.
+P16,vpp_v,max(x) − min(x),V,"Corrected, before alignment",VPP; no transform.
+P16,positive_peak_v,max(x),V,"Corrected, before alignment","Signed maximum, not clamped at zero."
+P16,negative_peak_abs_v,|min(x)|,V,"Corrected, before alignment",Recovered as |p−V| in the equivalent map.
+P16,rms_v,sqrt(mean(x²)),V,"Corrected, before alignment",All 256 points.
+P16,mean_abs_v,mean(|x|),V,"Corrected, before alignment",All 256 points.
+P16,positive_auc_vs,"trapz(x⁺, Δt)",V s,"Corrected, before alignment","Δt = max(T,10⁻⁹ s)/255; trapezoidal rule."
+P16,negative_auc_abs_vs,"trapz(x⁻, Δt)",V s,"Corrected, before alignment","x⁻=max(−x,0)."
+P16,absolute_auc_vs,positive_auc_vs + negative_auc_abs_vs,V s,"Corrected, before alignment",Equivalent sum of the two integrals.
+P16,crest_factor,"max(|x|) / max(RMS,10⁻¹² V)",1,"Corrected, before alignment",Peak-to-RMS ratio.
+P16,half_peak_width_s,Δt × Σ1{|x| ≥ 0.5 max(|x|)},s,"Corrected, before alignment","Counts all threshold points, including separated regions. Zero for zero peak."
+P16,duration_s,T = end_s − start_s,s,Historical segmentation metadata,Physical cycle duration; not 256 sample units.
+P16,skewness,"scipy.stats.skew(x, bias=False)",1,"Corrected, before alignment",Bias-corrected third standardized moment.
+P16,kurtosis,"scipy.stats.kurtosis(x, fisher=True, bias=False)",1,"Corrected, before alignment",Bias-corrected excess kurtosis; Gaussian reference is zero.
+P16,zero_crossings,Σ1{signbit(xj) ≠ signbit(xj−1)},count,"Corrected, before alignment",Zero is nonnegative. No wrap at the last point.
+P16,template_corr,"Historical: corr(file template, cycle); new: max_s corr(Ts,z)",1,Historical metadata / training-only bank,Historical source context retained only for R01. New templates use current training cycles.
+P16,snr_proxy_db,Historical: 20 log10(sband/snoise); new: 20 log10(RMS/sdiff),dB,Historical pre-resampling segment / new aligned cycle,"Historical value is supplied metadata. New noise is 1.4826 MAD(diff(x))/sqrt(2), floored at 10⁻¹² V."

@@ -1,0 +1,113 @@
+{
+  "status": "EXPLORATORY",
+  "version": "ml-review-23-v01",
+  "families": [
+    "PGD-PGS",
+    "PGT-PGD"
+  ],
+  "anchors_pct": [
+    0,
+    25,
+    50,
+    75,
+    100
+  ],
+  "confirmation_pct": [
+    10,
+    45,
+    60
+  ],
+  "seeds": [
+    42,
+    123,
+    2026
+  ],
+  "models": [
+    "OLS-V",
+    "Piecewise-V",
+    "V",
+    "C",
+    "P",
+    "C+V",
+    "C+P+V",
+    "C+P+V+route"
+  ],
+  "data": {
+    "analysis_rows": 2227,
+    "unique_physical_cycles": 2000,
+    "family_rows": [
+      1075,
+      1152
+    ],
+    "frozen_qc": true,
+    "scope": "Use the frozen accepted cycles. The historical QC uses file context."
+  },
+  "split": {
+    "outer_folds": 3,
+    "order": [
+      "valid_block_id",
+      "cycle_index",
+      "start_s"
+    ],
+    "rule": "Split each anchor source file into three consecutive blocks. Hold out one block.",
+    "embargo": "Remove ceil(n_file ** (1/3)) adjacent cycles from training.",
+    "shared_endpoint": "Use the same role for each shared physical cycle in both systems."
+  },
+  "cnn": {
+    "epochs": 120,
+    "early_stopping": false,
+    "batch_size": 64,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "gradient_clip": 1.0,
+    "threads": 2,
+    "channels": [
+      "signed_voltage / training_amplitude_scale",
+      "absolute_voltage / cycle_vpp"
+    ],
+    "amplitude_scale": "Use 1.4826 times the median absolute deviation of all current training voltage values. Floor at 0.000001 V.",
+    "physical_training_inputs": 0,
+    "huber_weight": 0.7,
+    "huber_delta_pp": 5,
+    "ordinal_weight": 0.3,
+    "ordinal_target_thresholds_pct": [
+      25,
+      50,
+      75,
+      100
+    ],
+    "augmentation": "Balance compositions and source files. Shift by -4 to 4 points. Scale time and amplitude by 0.98 to 1.02. Add Gaussian noise up to 0.005 times VPP.",
+    "shared_representation": "Share one waveform-only CNN within each family, fold, and seed."
+  },
+  "heads": {
+    "scaler": "StandardScaler",
+    "estimator": "Ridge",
+    "alpha": 100.0,
+    "target_unit": "percentage points",
+    "global": "Fit on all current training anchors.",
+    "route": "Use the same global scaler. Fit four Ridge heads on adjacent anchor pairs. Use the historical VPP router.",
+    "duplicate_rule": "Keep a column once when its field name is repeated. Keep distinct deterministic transforms.",
+    "template": "Use source templates made from current training cycles only.",
+    "snr": "Use cycle RMS and the robust scale of adjacent differences.",
+    "ensemble": "Average three outputs before clipping to 0 through 100."
+  },
+  "baselines": {
+    "OLS-V": "Fit ordinary least squares to five anchor VPP medians and their compositions.",
+    "Piecewise-V": "Sort the anchor medians by VPP. Merge exactly equal voltages by mean composition. Interpolate linearly. Use endpoint values outside the voltage range."
+  },
+  "selection": "Do not select a winning model or tune any setting with confirmation errors.",
+  "evaluation": {
+    "confirmation_role": "REUSED_CONFIRMATION",
+    "unit": "cycle",
+    "mean_mae": "Give each composition equal weight.",
+    "worst_mae": "Take the maximum composition-specific MAE.",
+    "bootstrap_replicates": 20000,
+    "bootstrap_seed": 20260917,
+    "block_length": "ceil(n_file ** (1/3))",
+    "method": "Use paired circular blocks within each file. Keep all file counts fixed.",
+    "scope": "Condition on the fitted model and observed files. Do not infer new-film uncertainty."
+  },
+  "freeze_order": "Save the protocol and code hashes before training. Save target-free predictions before evaluation.",
+  "new_experiments": 0
+}
